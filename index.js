@@ -3,12 +3,14 @@ const app = express()//새로운 express 앱을 생성
 const port = 3000//사용할 포트
 const bodyParser=require('body-parser');
 const {User}=require("./models/User");
+const cookieParser = require('cookie-parser');
 
 const config=require('./config/key');
 
 //데이터 분석해서 가져오는 부분 urlencoded 형식을 가진경우 아래는 json타입
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const mongoose = require('mongoose')//몽구스 불러오기
 
@@ -31,7 +33,6 @@ app.post('/register',(req,res)=>{
 
   //세이브 하기전 여기서 암호화
   //User.js에서 작업 <--왜 여기서 하는지는 모름 왜 저기서 함??
-  //
 
   user.save((err,suerInfo)=>{
     if(err) return res.json({success : false,err}) 
@@ -39,6 +40,34 @@ app.post('/register',(req,res)=>{
       success:true
     })
   })//몽고디비 저장하는것
+})
+
+//로그인 라우터 여기에
+app.post('/api/users/login',(req,res)=>{
+  //1.DB내부에서 요청된 이메일 찾아야한다.
+  User.findOne({email:req.body.email},(err,user)=>{
+    if(!user){
+      return res.json({
+        loginSuccess:false,
+        maessage:"해당하는 유저가 없습니다"
+      })
+    }
+    //2.요청된 이메일이 DB에 있다면 비밀번호와 같은지 확인한다
+    user.comparePassword(req.body.password,(err,isMatch)=>{
+      if(!isMatch)
+      return res.json ({loginSuccess:false, maessage:"잘못된 비밀번호" })
+
+      //3.비밀번호도 같다면 token 생성
+      user.generateToken((err,user)=>{
+        if(err) return res.status(400).send(err);
+        //token을 어디에 저장을 해서 보관해야함 쿠키나 로컬 저장소나
+        //일단 우린 쿠키에 저장한다
+        res.cookie("x_auth",user.token)
+        .status(200)
+        .json({loginSuccess:true,userId:user._id})
+      })
+    })
+  })
 })
 
 //해당 포트에서 앱실행
