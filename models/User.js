@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
     },
     password:{
         type:String,
-        maxlength:5
+        maxlength:500
     },
     lastname:{
         type:String,
@@ -56,8 +56,8 @@ userSchema.methods.comparePassword= function(plainPassword,cb){
     //평문 비밀번호와 데이터베이스에 있는 암호화된 비밀번호 같은지 체크
     //평문도 암호화 해서 비교해봐야한다
     bcrypt.compare(plainPassword,this.password,function(err,isMatch){
-        if(err) return cb(err),
-        cb(null,isMatch)
+        if(err) return cb(err);
+        cb(null,isMatch);
     })
 }
 
