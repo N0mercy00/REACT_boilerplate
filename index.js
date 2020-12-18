@@ -4,7 +4,7 @@ const port = 3000//사용할 포트
 const bodyParser=require('body-parser');
 const {User}=require("./models/User");
 const cookieParser = require('cookie-parser');
-
+const {auth}=require("./middleware/auth");
 const config=require('./config/key');
 
 //데이터 분석해서 가져오는 부분 urlencoded 형식을 가진경우 아래는 json타입
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   res.send('Hello World! nodemon ONLINE')
 })
 
-app.post('/register',(req,res)=>{
+app.post('/api/users/register',(req,res)=>{
   //회원가입 필요 정보 client에서 가져오면, 그것들을 DB에 넣는다.
   
   const user =new User(req.body)//bodyparser을 이용해서 바디에 걍 넣을수 있는거
@@ -67,6 +67,20 @@ app.post('/api/users/login',(req,res)=>{
         .json({loginSuccess:true,userId:user._id})
       })
     })
+  })
+})
+
+//auth route만들기
+app.get('/api/users/auth',auth,(req,res)=>{
+  res.status(200).json({
+    _id:req.user._id,
+    isAdmin:req.user.role===0?false:true,//0이면 일반유저
+    isAuth:true,
+    email:req.use.email,
+    name:req.user.name,
+    lastname:req.user.lastname,
+    role:req.user.role,
+    image:req.user.image,
   })
 })
 

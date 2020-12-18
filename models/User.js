@@ -74,5 +74,18 @@ userSchema.methods.generateToken= function(cb){
     })
 }
 
+userSchema.statics.findByToken=function(token,cb){
+    var user=this;
+    //token을 decode 한다
+    jwt.verify(token,'secretToken',function(err,decoded){
+       //유저 id를 이용해서 유저를찾은후 client에서 가져온 토큰과 
+       //DB에 보관된 token이 일치하는지 확인 
+       user.findOne({"_id":decoded,"token":token},function(err,user){
+           if(err) return cb(err);
+           cb(null,user);
+       }) 
+    })
+}
+
 const User =mongoose.model('User',userSchema)//화려한 모델이 스키마를 감싸네
 module.exports={User}//외부 사용 가능하게
