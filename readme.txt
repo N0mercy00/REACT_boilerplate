@@ -1,4 +1,9 @@
 REACT BOILER PLATE 
+
+유튜브 John Ahn 님 강의 실습
+https://www.youtube.com/watch?v=OGVsnbEbSLM&list=PL9a7QRYt5fqkZC9jc7jntD1WuAogjo_9T&index=13
+*모든 코드의 저작권은 유튜브 John Ahn 님에게 있습니다 *
+
 index.js <-- back end 시작점
 node js, express 다운 및 초기 앱 
 
@@ -19,3 +24,12 @@ json web token , express cookie parser 두개 설치
 3.해당 유저에게 토큰생성
 *비밀번호 비교과정에서 암호화된 비밀번호가 맥시멈 사이즈를 넘는다고 에러남
 일단 비밀번호 한도를 늘려서 로그인했는데 어디가 잘못되었는지 확인하기*
+
+auth 기능만들기
+auth route만들기 <-제한되어있는 페이지/관리자/유저등등 체크 (글조회,작성,삭제권한등)
+저번에 작성한 토큰을 이용한다. 클라이언트에서는 쿠키, 서버에서는 DB에 쿠기가 들어간다
+두개의 쿠키가 동일한지 체크
+쿠키에 저장된 토큰을 decode 하면 유저ID가 나온다 (토큰자체가 유저아이디를 이용해서 생성한것이기때문)
+
+
+*모든 코드의 저작권은 유튜브 John Ahn 님에게 있습니다 *
