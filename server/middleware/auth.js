@@ -7,7 +7,7 @@ let auth=(req,res,next)=>{
     let token =req.cookies.x_auth;
     //2.token을 복호화 해서 유저ID를 찾는다.
     User.findByToken(token,(err,user)=>{
-        if(err) throw err;
+        //if(err) throw err;
         if(!user)return res.json({isAuth:false,error:true})
 
         req.token=token;

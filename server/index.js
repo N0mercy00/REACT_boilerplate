@@ -2,10 +2,10 @@ const express = require('express') //express 모듈을 가져온다
 const app = express()//새로운 express 앱을 생성
 const port = 3000//사용할 포트
 const bodyParser=require('body-parser');
-const {User}=require("./models/User");
+const {User}=require("./server/models/User");
 const cookieParser = require('cookie-parser');
-const {auth}=require("./middleware/auth");
-const config=require('./config/key');
+const {auth}=require("./server/middleware/auth");
+const config=require('./server/config/key');
 
 //데이터 분석해서 가져오는 부분 urlencoded 형식을 가진경우 아래는 json타입
 app.use(bodyParser.urlencoded({extended:true}));
@@ -25,6 +25,13 @@ mongoose.connect(config.mongoURI,{
 app.get('/', (req, res) => {
   res.send('Hello World! nodemon ONLINE')
 })
+
+//axios test용 landing page 
+app.get('/api/hello',(req,res)=>{
+  res.send("axios is working")
+})
+//
+
 
 app.post('/api/users/register',(req,res)=>{
   //회원가입 필요 정보 client에서 가져오면, 그것들을 DB에 넣는다.
