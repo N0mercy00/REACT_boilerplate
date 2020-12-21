@@ -43,4 +43,7 @@ auth route만들기 <-제한되어있는 페이지/관리자/유저등등 체크
 Axios 다운 <--postman 더 안써도됨 그동안 client 부분없어서 썼는데
 이젠 React 에서 request 보낼 꺼야 how? Axios이용
 
+883에러 나서 일단 스탑 ㅠㅠ 
+npm문제 해결하고 다시하기
+
 *모든 코드의 저작권은 유튜브 John Ahn 님에게 있습니다 *
