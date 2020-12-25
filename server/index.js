@@ -1,11 +1,11 @@
-const express = require('express') //express 모듈을 가져온다
-const app = express()//새로운 express 앱을 생성
-const port = 3000//사용할 포트
+const express = require('express'); //express 모듈을 가져온다
+const app = express();//새로운 express 앱을 생성
+const port = 3000;//사용할 포트
 const bodyParser=require('body-parser');
-const {User}=require("./server/models/User");
+const {User}=require("./models/User");
 const cookieParser = require('cookie-parser');
-const {auth}=require("./server/middleware/auth");
-const config=require('./server/config/key');
+const {auth}=require("./middleware/auth");
+const config=require('./config/key');
 
 //데이터 분석해서 가져오는 부분 urlencoded 형식을 가진경우 아래는 json타입
 app.use(bodyParser.urlencoded({extended:true}));
@@ -48,6 +48,8 @@ app.post('/api/users/register',(req,res)=>{
     })
   })//몽고디비 저장하는것
 })
+
+
 
 //로그인 라우터 여기에
 app.post('/api/users/login',(req,res)=>{
